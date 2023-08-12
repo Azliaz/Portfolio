@@ -1,1 +1,74 @@
 
+import pandas as pd
+import numpy as np
+df = pd.read_csv('/Users/azliaz/Desktop/Projects/Python and Tableau - Online sales/Online Shop Customer Sales Data.csv')
+
+df.head(5)
+
+df.info()
+
+# To identify if there's any missing values
+
+df.isna().sum()
+
+#To convert headers to a standadized lower case
+
+df.columns = df.columns.str.lower()
+df.head(5)
+
+# Changing the format to purchase date to datetime 
+
+df['purchase_date']=pd.to_datetime(df['purchase_date'])
+df
+
+
+# Created 2 new columns for weekday and month
+
+weekday = df['purchase_date'].dt.day_name()
+df['weekday'] = weekday
+month = df['purchase_date'].dt.month_name()
+df['month'] = month
+df.head(5)
+
+
+# Replacing attributes in in certain fields so it's more comprehensible. 
+
+df['gender'].replace({0: 'Male',1: 'Female'},inplace=True)
+df['pay_method'].replace({0: 'Digital Wallets', 1: 'Card', 2: 'PayPal', 3: 'Other'}, inplace=True)
+df['browser'].replace({0: 'Chrome', 1: 'Safari', 2: 'Edge', 3: 'Other'}, inplace=True)
+df['newsletter'].replace({0: 'not subscribed', 1: 'subscribed'}, inplace= True)
+df['voucher'].replace({0:'not used', 1: 'used'}, inplace= True)
+
+df.head(5)
+
+
+# Re-checking info: 
+
+df.info()
+
+
+# exploring the distinct values in 'browser' field
+df['browser'].unique()
+
+# exploring the distinct values in 'Payment method' field
+df['pay_method'].unique()
+
+#exploring the number of each distinct values in 'browser' field
+browser_count = df['browser'].value_counts()
+browser_count
+
+#exploring the number of each distinct values in 'pay_method' field
+payment_count = df['pay_method'].value_counts()
+payment_count
+
+#exploring the number of each distinct values in 'gender' field
+gender_count = df['gender'].value_counts()
+gender_countb
+
+#CHanging the file name
+OnlineSales_preprocessed = df
+
+OnlineSales_preprocessed.head(5)
+
+#Saving the pre-processed data frame into csv. file so it can be further explored using Tableau
+df.to_csv('OnlineSales_preprocessed.csv', index = False)
